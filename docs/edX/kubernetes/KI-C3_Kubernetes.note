@@ -1,0 +1,56 @@
+KI Chapter 3: Kubenetes
+
+Objectives
+  Define Kubernetes.
+  Explain the reasons for using Kubernetes.
+  Discuss the features of Kubernetes.
+  Discuss the evolution of Kubernetes from Borg.
+  Explain the role of the Cloud Native Computing Foundation.
+
+Kubernetes is a system for automating deployment, scaling, and management of containerized applications
+Taken from the Greek word for helmsman (the skipper)
+Developed by Google. Initially known as BORG.  Donated to the CNCF in 2015 as Kubernetes.
+Released in 4 month cycles.
+
+Bin packing: containers scheduled based on resources.
+Horizontal scaling: scaled manually or automatically based on resources or custom metrics.
+
+K8s provides the networking and load balancing.
+
+Supports Automatic rollout and rollbacks, secrets management outside of the pod space,
+storage orchestration (SDS or software-defined storage), batch execution??, IPv4 & 6 addressing
+Q: Is SDS what longhorn is. 
+
+CNCF
+----
+Drives adoption of containerization as well as hosts many related projects.
+While they host the project, the projects are still run by their original inventors.
+CNCF provides the agent, think Hollywood agent, services for Kubernetes (and maybe others)
+
+Popular graduated projects (as of March 2024):
+  Kubernetes container orchestrator
+  Argo workflow engine for Kubernetes
+  etcd distributed key-value store
+  CoreDNS DNS server
+  containerd container runtime
+  CRI-O container runtime
+  Envoy cloud native proxy
+  Fluentd for unified logging
+  Flux continuous delivery for Kubernetes
+  Harbor registry
+  Helm package management for Kubernetes
+  Linkerd service mesh for Kubernetes
+  Open Policy Agent policy engine
+  Prometheus monitoring system and time series DB
+  Rook cloud native storage orchestrator for Kubernetes
+
+Key incubating projects:
+  Buildpacks.io builds application images
+  Contour ingress controller for Kubernetes
+  gRPC for remote procedure call (RPC)
+  CNI for Linux containers networking
+  Knative serverless containers in Kubernetes
+  KubeVirt Kubernetes based Virtual Machine manager
+  Notary for data security
+  Many more: https://www.cncf.io/projects/
+

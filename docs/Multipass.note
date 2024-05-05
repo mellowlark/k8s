@@ -1,18 +1,24 @@
+After installing multipass my fecora coreOS ova VM wouln't start with the following error:
+
 vbms CoreOS-CTL-Node -type headless
 Fails to start with
 FATAL: Module kvm is in use
 
+Fix:
 Stop Multiplass: (not sure if stopping running VMs is required)
 sudo snap stop multipass.multipassd
 To start it again, run:
 sudo snap start multipass.multipassd.
 
-
-export KUBECONFIG=~/.k3s/k3s.yaml
-
-
 k3sup
-
+https://github.com/alexellis/k3sup
+Get the executable:
 curl -LO https://github.com/alexellis/k3sup/releases/download/0.13.5/k3sup
 
+Install on a host
 k3sup install --ip 10.165.25.79 --user ubuntu --k3s-extra-args "--cluster-init"
+So far it installed successfully on ubuntu multipass and Fedora coreOS
+
+
+export command I always forget
+export KUBECONFIG=/etc/rancher/k3s/k3s.yaml

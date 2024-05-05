@@ -1,0 +1,40 @@
+Introduction to Kubernetes on edX (edx.org)
+
+Chapter Objective
+  Define the concept of container orchestration.
+  Explain the benefits of using container orchestration.
+  Discuss different container orchestration options.
+  Discuss different container orchestration deployment options.
+
+
+Chapter 2:Container Orchestration
+
+Container Orchestrators
+--------------------------------
+  Amazon Elastic Container Service
+  Azure Container Instances
+  Azure Service Fabric (open source)
+  Kubernetes
+  Marathon ***(works with  Apache Mesos and DC/OS)***
+  Nomad
+  Docker Swarm
+More in depth info in course:
+"Introduction to Cloud Infrastructure Technologies" (LFS151x)
+
+
+Deploying Container Orchestrators
+----------------------------------
+Deployment possible on Bare metal, VMs, public and private clouds.
+  AWS Elastic Compute Cloud (EC2) instances, Google Compute Engine (GCE) VMs,
+  DigitalOcean Droplets, IBM Virtual Servers, OpenStack, etc
+Some turnkey options (Kubernetes as a Service or KaaS)
+  Amazon Elastic Kubernetes Service (Amazon EKS)
+  Azure Kubernetes Service (AKS)
+  DigitalOcean Kubernetes
+  Google Kubernetes Engine (GKE)
+  IBM Cloud Kubernetes Service
+  Oracle Container Engine for Kubernetes
+  VMware Tanzu Kubernetes Grid.
+
+Notes
+Cloud Native Computing Foundation (CNCF) project

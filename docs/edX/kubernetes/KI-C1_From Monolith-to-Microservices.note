@@ -1,0 +1,18 @@
+KI Chapter 1. From Monolith to Microservices
+
+By the end of this chapter, you should be able to:
+  Describe the transformation path from a monolith to microservices.
+  Explain what a monolith is.
+  Discuss the monolith's challenges in the cloud.
+  Explain the concept of microservices.
+  Discuss microservices advantages in the cloud.
+
+  Transforation isn't alwas smooth or even possible.
+  But alegedly worth it.
+  Some of the benefits of kuberneties over Monolith is reduced hardware needs
+  Easier and less disruptive upgrades.
+  Scaling, not restricted by hardware limitations.
+  ...
+
+  Microservices cover all this issues and more.
+  

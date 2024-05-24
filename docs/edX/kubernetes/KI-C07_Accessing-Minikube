@@ -1,0 +1,47 @@
+KI Chapter 7. Accessing Minikube
+
+Overview
+========
+
+In this chapter, we will learn about different methods of accessing a Kubernetes cluster.
+
+We can use a variety of external clients or custom scripts to access our cluster for administration purposes. We will explore kubectl as a CLI tool to access the Minikube Kubernetes cluster, the Kubernetes Dashboard as a web-based user interface to interact with the cluster, and the curl command with proper credentials to access the cluster via APIs.
+
+Learning Objectives
+===================
+
+By the end of this chapter, you should be able to:
+
+    Compare methods to access a Kubernetes cluster.
+    Access the Minikube Kubernetes cluster with kubectl.
+    Access the Minikube Kubernetes cluster from the Dashboard.
+    Access the Minikube Kubernetes cluster via APIs.
+
+Accessing Minikube
+==================
+
+Any healthy running Kubernetes cluster can be accessed via any one of the following methods:
+
+    Command Line Interface (CLI) tools and scripts
+    Web-based User Interface (Web UI) from a web browser
+    APIs from CLI or programmatically
+
+These methods are applicable to all Kubernetes clusters.
+
+Accessing Minikube: Command Line Interface
+==========================================
+CLI
+---
+kubectl is the primary Kubernetes command line interface client.
+It is a stand alone tool. Does not need to be installed execpt maybe to add it to the path for easier access.
+Many other tools have a copy of kubectl wraped inside of them.
+minikube kubectl -- for example. For some reason a -- is requred after kubectl. minkube kubectl --
+Seems easier to just download it and run it directly
+
+Web UI
+------
+
+
+APIs
+----
+

@@ -1,0 +1,189 @@
+KI Chapter 6 Minikube - Installing Local Kubernetes Clusters
+
+
+Chapter Overview
+================
+Minikube is desiged to be an easy method to install an all-in-one or multi-node local Kubernetes cluster.
+Installs on pretty much any popular OSs.
+
+Learning Objectives
+===================
+
+    Understanding Minikube
+    Installing on the native OS
+    Verifying install
+
+What is Minikube
+================
+Minikube can be run most anywhere. It is reccomended to isolate it because it can make unwanted changes to the OS.
+Isolation can be achieved by running it on a Type-2 Hypervisor or other container runtime software.
+    A hypervisor, also known as a virtual machine monitor (VMM) or virtualizer, is a type of computer software, firmware or hardware that creates and runs virtual machines. 
+    Type-2 runs on top of the installed OS. Type-1 installs on bare metal.
+It can also be run inside of a VM for Isolation. (I assume the vm is also running on some sort of hypervisor too)
+
+The isolation sofware can be selected with the --driver switch. Otherwise Minikube will look for its favorite among the installed options.
+I've noticed that one hypervisor option needs to be disabled in order to use a different one.
+For example VirtualBox and Multipass do not seem to play well together.
+So the --driver switch may also be good for picking the currently running one.
+
+As with all software resources are a concern.
+For learning environment
+    2 CPU cores per a cluster
+    2 GIGs of RAM minimum, with 4-8 reccomended
+    20+ GB disk space
+    Internet access
+
+Requirements for Running Minikube
+=================================
+
+    VT-x/AMD-v virtualization
+    kubectl (the kuberneties command line)
+    Type-2 Hypervisor or Container runtime
+        Remember Type-2 runs on top of an OS.
+    A Hypervisor can be selected or minikube will attempt to find one one.
+    Order of preference on Linux: Docker, kvm2, podman, vmware and virtalbox.
+    Hypervisor support by OS
+        Linux:  VirtualBox, KVM2, and QEMU hypervisors, or Docker and Podman runtimes
+            Note Linux also supports a --driver=none option for advanced users.
+        macOS: VirtualBox, HyperKit, VMware Fusion, Parallels, and QEMU hypervisors, or Docker and Podman runtimes
+        Windows: VirtualBox, Hyper-V, VMware Workstation, and QEMU hypervisors, or Docker and Podman runtimes
+    Internet connection to pull down the data required to set things up.
+
+    Note while VirtualBox is one of the most stable and robust drivers, it is slowly loosing favor to speedier solutions.
+    Also it is not compatable with the macOS ARM chipsets.
+
+
+
+
+Installing Minikube on Linux
+============================
+
+Basically a Tutorial which I copied below.
+
+Couple side notes
+    Running minikube delete only delets pods and nodes. Not the minikube exe or the virtualization software.
+    I tried virtualbox and it failed due to some bios setting.
+    So I uninstalled that and installed docker CE aka docker engine which worked without an issue.
+    https://docs.docker.com/engine/install/
+    Had to run minikube delete after installing docker because it errored on the vbox images.
+
+Copy from edx:
+
+Let's learn how to install the latest Minikube release on Ubuntu Linux 22.04 LTS with VirtualBox v7.0 specifically. This installation assumes no other isolation software is installed on our Linux workstation, such as KVM2, QEMU, Docker Engine or Podman, that Minikube can use as a driver.
+
+NOTE: For other Linux OS distributions or releases, VirtualBox and Minikube versions, the installation steps may vary! Check the Minikube installation for specific installation instructions!
+
+Verify the virtualization support on your Linux OS in a terminal (a non-empty output indicates supported virtualization):
+
+$ grep -E --color 'vmx|svm' /proc/cpuinfo
+
+The easiest way to download and install the VirtualBox hypervisor for Linux is from its official download site. VirtualBox is available for many Linux distributions such as Oracle Linux, RHEL, CentOS 7, Ubuntu, Debian, openSUSE, and Fedora.
+
+Minikube can be easily downloaded and installed in a terminal. Either the latest release or a specific release available from the Minikube release page can be installed by running the following commands. While these installation commands reflect the official installation guide at the time of this course content update, they may change in the near future as part of the continuous growth of Kubernetes. It is strongly recommended to inspect the official installation guide for Linux > x86-64 > Stable when attempting the installation, to ensure the most up-to-date package repositories are used in the process. Below we are presenting the Binary download option, a distribution neutral installation approach:
+
+$ curl -LO \
+https://storage.googleapis.com/minikube/releases/latest/minikube_linux_amd64
+
+$ sudo install minikube_linux_amd64 /usr/local/bin/minikube && rm minikube_linux_amd64
+
+NOTE: Replacing /latest/ with a particular version, such as /v1.31.2/ will download that specified Minikube version.
+
+Start Minikube. In a terminal we can start Minikube with the minikube start command, which bootstraps a single-node cluster with the latest supported stable Kubernetes version release. For a specific Kubernetes version the --kubernetes-version option can be used as such minikube start --kubernetes-version=v1.27.1 (where latest is default and acceptable version value, and stable is also acceptable). In case there are other virtualization driver candidates for Minikube on the workstation, it is good practice to supply the desired driver with the --driver=virtualbox option. More advanced start options will be explored later in this chapter:
+
+$ minikube start --driver=virtualbox
+
+😄   minikube v1.32.0 on Ubuntu 22.04
+✨ Using the virtualbox driver based on user configuration
+💿 Downloading VM boot image ...
+   > minikube-v1.32.1-amd64.iso....: 65 B / 65 B [---------] 100.00% ? p/s 0s
+   > minikube-v1.32.1-amd64.iso: 292.96 MiB / 292.96 MiB 100.00% 31.34 MiB p
+👍 Starting control plane node minikube in cluster minikube
+💾 Downloading Kubernetes v1.28.3 preload ...
+   > preloaded-images-k8s-v18-v1...: 403.35 MiB / 403.35 MiB 100.00% 32.19 M
+🔥 Creating virtualbox VM (CPUs=2, Memory=6000MB, Disk=20000MB) ...
+🐳 Preparing Kubernetes v1.28.3 on Docker 24.0.7 ...
+   ▪ Generating certificates and keys ...
+   ▪ Booting up control plane ...
+   ▪ Configuring RBAC rules ...
+🔗 Configuring bridge CNI (Container Networking Interface) ...
+🔎 Verifying Kubernetes components...
+   ▪ Using image gcr.io/k8s-minikube/storage-provisioner:v5
+🌟 Enabled addons: storage-provisioner, default-storageclass
+💡 kubectl not found. If you need it, try: 'minikube kubectl -- get pods -A'
+🏄 Done! kubectl is now configured to use "minikube" cluster and "default" namespace by default
+
+NOTE: An error message that reads "Unable to pick a default driver..." means that Minikube was not able to locate any one of the supported hypervisors or runtimes. The recommendation is to install or re-install a desired isolation tool, and ensure its executable is found in the default PATH of your OS distribution. 
+
+NOTE: An error message that reads “The vboxdrv kernel module is not loaded” means that a critical VirtualBox kernel module may not be available. First, try to re-install VirtualBox on the workstation. Second, try installing a C compiler that may be missing from your workstation and then build the kernel module. For the Ubuntu 22.04 LTS OS the required gcc compiler can be downloaded and installed from https://packages.ubuntu.com/jammy/amd64/gcc-12/download. The kernel module can be built with the sudo /sbin/vboxconfig command. After a successful rebuild, attempt to start minikube again with virtualbox using the command above.
+
+Check the status. With the minikube status command, we display the status of the Minikube cluster:
+
+$ minikube status
+
+minikube
+type: Control Plane
+host: Running
+kubelet: Running
+apiserver: Running
+kubeconfig: Configured
+
+Stop Minikube. With the minikube stop command, we can stop Minikube. This command stops all applications running in Minikube, safely stops the cluster and the VirtualBox VM, preserving our work until we decide to start the Minikube cluster once again, while preserving the Minikube VM:
+
+$ minikube stop
+
+✋  Stopping node "minikube"  ...
+🛑  1 node stopped.
+
+When it is time to run the cluster again, simply run the minikube start command (driver option is not required), and it will restart the earlier bootstrapped Minikube cluster.
+
+Remove Minikube. The minikube delete command completely removes Minikube and the Minikube VM. This command should be attempted only when the Minikube cluster is to be decommissioned. All work will be lost after the completion of this command:
+
+$ minikube delete
+
+🔥 Deleting "minikube" in virtualbox ...
+💀 Removed all traces of the "minikube" cluster.
+
+
+
+
+Installing Minikube on macOS
+==============================
+Installing minikube on Windows
+==============================
+These were both pretty much the same as the Linux instructions
+The differences were the different OS version of minikube, Linux macOS and Windows
+Windows also has it's own hypervisor that might get in the way.
+Installing inside the WSL might also be an option.
+
+I used docker on the Mac and didn't install it on Windows.
+I have both Docker and Virtual Box installed and running.
+
+Sticking with the Mac and docker until further notice......
+
+
+Advanced minikube Features(1) & (2  )
+=============================
+Mine:
+Note minkube comes with kubectl embeded.
+It gets called by running: minikube kubectl -- <kubectl commmands here>
+Options for running this more efeciently (and a little less confusing)
+    Install kubectl stand alone. The versions need to match, but other than that there should be no difference.
+    Create an alias on Linux & MacOS. 
+        alias kubectl='minikube kubectl --'
+    Create a doskey alias on Windows
+        doskey kubectl=minikube kubectl -- $*
+        ($* says to include any of the arguments passed to the command)
+    Now you can run kubectl like it was the actual commmands
+    The alias options are standard Linux and Windows options that have many other uses.
+    They can be configured to get set on login or each time a shell is started.
+    If you are moving from one OS to another it doesn't hurt to write up a few aliases to bridge the gap
+        dir=ls -l for users used to the windows command line.
+    Wouldn't surpise me if somone already shared an list of good aliases for Windows users wanting to become Linux Nerds.
+
+
+As previously noted, when started, minikube picks its favorite isolation/contonainer runtime based on what is installed.
+After starting a single VM is created and provisioned with the required kubernetes components.
+The VM will ith either be a VirtualBox VM or a Docker container. Either will be configured with 2 CPUs, 6GB memory, 20GB disk space.
+If there are not two CPUs available the install with exit with a message.
+
+Basically a list of commands to run. Worth a second run through.

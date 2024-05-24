@@ -1,0 +1,131 @@
+KI Chapter 5: Installing Kubernetes
+
+Objective
+=========
+    Discuss Kubernetes configuration options.
+    Discuss infrastructure considerations before installing Kubernetes.
+    Discuss infrastructure choices for a Kubernetes cluster deployment.
+    Review Kubernetes installation tools and certified solutions.
+
+Kubernetes Configuration (options)
+==================================
+All-in-One Single-Node Installation
+    Everything you need in one node for testing and practice.
+
+Single-Control Plane and Multi-Worker Installation
+    Uses stacked etcd (etcd runs inside the node)
+
+Single-Control Plane with Single-Node etcd, and Multi-Worker Installation
+    etcd is external to the **cluster** formed by the nodes that run control plane components
+
+Multi-Control Plane and Multi-Worker Installation
+    HA install with stacked etcd
+
+Multi-Control Plane with Multi-Node etcd, and Multi-Worker Installation
+    HA install with external etcd.
+
+More info:
+etcd stacked vs external.
+https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/ha-topology/
+**remember etcd is the database that keeps track the state of the cluster and notes**
+
+
+Infrastructure for Kubernetes Installation
+==========================================
+Once Kubernetes has been moved to production decisions need to be made on infrastructure.
+    Bare metal, public, private or hybrid cloud.
+    Underlying OS and which Distro.
+    Networking (which CNI)
+
+Installing Local Learning Clusters
+==================================
+A new one seems to turn up every day. Here's a few that seem to have gained popularity.
+Many of them seem to be released by Linux Distros, Ubuntu, Red Hat, Fedora, etc....
+
+    Minikube: As the name suggests it is a good learning tool that can be installed on a single host.
+    Kind: cluster deployed in Dockeer containers that act as nodes.
+    Docker Desktop: (Free for personal use) Includes a Kubernetes option.
+    Podman Desktop: Red Hat's answer to Docker Desktop.
+    MicroK8s: Another lightweight Kubernetes option. It's From Canonical which backs several open soure projects including Ubuntu.
+    k3s: Lightweight Kubernetes started by Rancher and transfered to CNCF.
+    I believe Rancher has it's own container desktop option now as well.
+    k0s: Another lightweight auto installer. Not a lot of documentation though.
+
+NOTE Kubernetes is knowns as K8s as in K(8 letters)s. Many of the names are plays on that.
+
+Installing Production Clusters with Deployment Tools
+====================================================
+Again there are several tools for setting up a true production Kubernetes install.
+
+    kubeadm: probably the most well known option. (kubeadm does not provision the hosts)
+      It can also be used to configure a single-node cluster.
+    kubespray: (formerly known as kargo). Seems to be for true Kubernetes infrastructure. AWS, GCP, Azure, etc....
+    kobs: Seems to be a newer player, as it only officiallly supports AWS and GCE. Others are in various stages of support.
+    Kubernetes The Hard Way: Not a tool but rather a guide to installing Kubernetes manually.
+      Probably worth a look to at least get a complete look at the Kubernetes enviroment.
+    https://github.com/kelseyhightower/kubernetes-the-hard-way
+      The Hard Way is optimized for learning, which means taking the long route to ensure you understand each task required to bootstrap a Kubernetes cluster.
+
+
+Production Clusters from Certified Solutions Providers
+======================================================
+With growing popularity comes people looking to make  a dollar.
+As of whenever this course was written, there are 200+ managed Kubernetes services providers.
+
+Hosted Solution Providers
+
+    Alibaba Cloud Container Service for Kubernetes (ACK)
+    Amazon Elastic Kubernetes Service (EKS)
+    Azure Kubernetes Service (AKS)
+    DigitalOcean Kubernetes (DOKS)
+    Google Kubernetes Engine (GKE)
+    IBM Cloud Kubernetes Service
+    Oracle Container Engine for Kubernetes (OKE)
+    Red Hat OpenShift
+    VMware Tanzu Kubernetes Grid
+
+Partners
+
+    Aqua Security
+    Canonical
+    D2IQ
+    Dell Technologies Consulting
+    Deloitte
+    Fujitsu
+    GitLab
+    HPE
+    Kubermatic
+    Kublr
+    Mirantis
+    Platform9
+    SAP
+    SUSE
+    Sysdig
+    Weaveworks
+
+Turnkey Cloud Solutions
+
+    Linode Kubernetes Engine
+    Nirmata Managed Kubernetes
+    Nutanix Karbon
+    Vultr Kubernetes Engine
+
+Searching google revals consolodaton of the industry. i.e. Many of them are under new names.
+Running list of the Cloud Native Landscape
+https://landscape.cncf.io/
+
+
+Kubernetes on Windows
+=====================
+Semi-recently Kubernetes provided a means for running worker nodes on Windows
+There are no plans to add control node support. That still needs to be run on Linux.
+Scheduling Windows pods to run on Windows and Linux pods to run on Linux is up to the end user.
+But Linix and windows containers can coexist in the same cluster.
+
+Learning Objectives (Review)
+============================
+
+    Configuration options
+    Infrastructure considerations
+    Infrastructure choices
+    Instalation tools and solutions.

@@ -1,0 +1,146 @@
+Definitions:
+------------
+mk: minikube 
+k: kubectl
+cluster: Set of related nodes
+node: Single OS, physical or virtual.
+pod: Process that corrals containers.
+replica set: group of pods all using the same configuration for reduncancy.
+deployment: creates a replica set
+service: Replica set configuration.
+imperative: Configure via the command line
+declarative: Configure via config files, most often yaml files.
+
+First steps:
+------------
+Lines starting with > indicate a command, <xyz> = required argument based on current install, (xyz) = explanation of the preceding command
+
+Create a minikube cluster:
+> mk start
+This will install a container onto host to be used as a node. Use -n x for x number of nodes.
+> mk status
+Note if using a single node, the control plane will also be used as a worker node.
+If creating multiple nodes, the control plane will will still be used as a worker node.
+To prevent that, use the following command:
+> k taint node minikube node-role.kubernetes.io/master:NoSchedule
+Verify:
+> k describe node minikube |grep Taints
+
+> mk ip (show minikube container' IP address)
+> mk ssh <enter> (ssh into the minikube container no IP required)
+> exit
+> k cluster-info
+> k get nodes 
+> k get pods -A
+> k get namespaces
+
+imperative steps
+----------------
+> k run <tag> --image=<image> (pulls image from dockerhub by default)
+> k describe pod <tag> (also contains some logs at the end of output)
+
+> mk ssh (ssh into the minikube container)
+> docker ps |grep <tag>
+Note there are two containers. Notice that one shows entrypoint as /pause
+The 'pause' container is a container which holds the network namespace for the pod. 
+Enter the pod
+> docker exec -it <container name> sh
+> hostname (gets hostname)
+> hostname -i (gets ip)
+> curl <ip> (hostname works as well)
+should see nginx welcome.
+> exit back to node
+>curl ip works, hostname does not.
+
+> exit (back to host)
+
+> k get pods -o wide
+Shows same IP but is not avaialable from outside the node.
+
+> k delete pod nginix
+pod "nginx" deleted
+
+Deployments, Replica Sets & Services
+------------------------------------
+replica set: group of pods all using the same configuration
+deployment: creates a replica set
+service: configuration for replica set/deployment options.
+
+> k create deployment <tag> --image <image name from dockerhub>
+> k get deployment
+> k get pods
+> k describe deploy <tag>
+> k describe pod <pod name>
+> k scale deployment nginx-deploy --replicas x
+> k get pods (note there are x pods running)
+> k get pods -o wide
+> k scale deployment nginx-deploy --replicas x
+Note the # of pods has changed.
+
+> mk ssh
+> curl <pod ip>
+
+------------------####################@@@@@@@@@@@@@@@@@@@@@@@
+
+Services
+ClusterIP:  Exposes the Service on a cluster-internal IP, only reachable from within the cluster
+> k expose deploy nginx-deployment --port 8080 --target-port 80
+service/nginx-deploy exposed
+> k get svc
+Created clusterIP service.
+
+> mk ssh
+> curl 10.97.229.40:8080
+..<title>Welcome to nginx!</title>...
+> exit
+> k get svc
+> k describe svc nginx-deploy
+
+creating docker image for next steps.
+
+
+Install nodejs with npm. Used for generating package.json with includes.
+If you have a copy of that file already installing nodejs can be skipped.
+
+> npm init -y
+(creates package.json with basic configuration)
+install express package
+> npm install express (updates package file)
+(ok to remove newly created node_modules folder since app will run in container)
+create index.mjs (look into mjs extension)
+(basically a hello world web app)
+edit package.json file to replace the test script section with
+start: "node indes.mjs"
+
+create Dockerfile
+build
+> docker build . -tag jimmyk/name:<tag> (default=latest)
+
+log into dockerhub:
+> docker login -u <docker user name>
+(enter token when prompted)
+<your docker token>
+If you don't have a token the login command provides info on how to get one.
+
+push the image to dockerhub
+> docker push jimmyk/k8s-web-hello:<tag> (default=latest)
+
+
+deploy new image
+> k expose deploy k8s-web-hello --port 3000
+> k get svc
+
+> mk ssh
+> curl <svc ip>
+<h1>VERSION 2: Hello from the k8s-web-hel.....
+> k scale deply k8s-web-hello --replicas x
+> k get pods -o wide (note x different IPs)
+> curl <svc ip>:3000
+
+NodePort
+replace svc
+> k delete svc k8s-web-hello
+> k expose deploy k8s-web-hello --type NodePort --port 3000
+> k get svc k8s-web-hello   NodePort    10.106.3.149   <none>        3000:30388/TCP
+> mk ip
+> curl <mk ip>:30388

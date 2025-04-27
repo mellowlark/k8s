@@ -1,8 +1,8 @@
 # This can be used as a script when saved and run on linux\ubuntu.
 
 # Install:
-kubectl
-curl -LO https://github.com/kubernetes/minikube/releases/latest/download/minikube-linux-amd64
+# kubectl
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
 sudo install kubectl /usr/local/bin/ && rm kubectl
 
 # minikube

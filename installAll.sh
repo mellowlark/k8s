@@ -3,11 +3,11 @@
 help() {
         echo "Default installs docker, kubectl, helm, & k9s"
         echo "Choose one of k0s, minikube, docker, kubectl, helm, k9s t install the individual application"
-        echo "Note choosing k0s or minikube may also install docker, kubectl, helm & k9s"
+        echo "Choose k0sp or minikubep to include the supporting tools"
 	exit
 }
 docker() {
-	# removes any existing docker installs before installing directly from docker repositories.
+	# removes existing docker install before installing directly from docker repositories.
 	for pkg in docker.io docker-doc docker-compose docker-compose-v2 podman-docker containerd runc; do sudo apt-get remove $pkg; done
 
 	# Set up Docker's apt repository 
@@ -51,15 +51,24 @@ k9s() {
 k0s() {
 	#install k0s quickly sets up a local Kubernetes cluster.
 	curl -sSLf https://get.k0s.sh | sudo sh
- #main #havn't decided if this should be stand alone install or install the other options at the same time
- #uncomment main to install the other options at the same time
+}
+k0sp() {
+	#install k0s quickly sets up a local Kubernetes cluster.
+ 	#also calls main to install docker, kubectl, helm, k9s.
+	curl -sSLf https://get.k0s.sh | sudo sh
+	main
 }
 minikube() {
   # minikube quickly sets up a local Kubernetes cluster 
   curl -LO https://github.com/kubernetes/minikube/releases/latest/download/minikube-linux-amd64
   sudo install minikube-linux-amd64 /usr/local/bin/minikube && rm minikube-linux-amd64
-  #main #havn't decided if this should be stand alone install or install the other options at the same time
-  #uncomment main to install the other options at the same time
+}
+minikubep() {
+  # minikube quickly sets up a local Kubernetes cluster.
+  #also calls main to install docker, kubectl, helm, k9s.
+  curl -LO https://github.com/kubernetes/minikube/releases/latest/download/minikube-linux-amd64
+  sudo install minikube-linux-amd64 /usr/local/bin/minikube && rm minikube-linux-amd64
+  main
 }
 main() {
 	docker
@@ -88,4 +97,3 @@ elif [ $argv ]; then
 else
     echo "Invalid choice [${argv}]..."
 fi
-

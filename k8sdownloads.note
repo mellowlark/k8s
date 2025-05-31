@@ -1,0 +1,33 @@
+Urls to download latest versions
+
+https://api.github.com/etcd-io/etcd/releases/tags 
+https://api.github.com/repos/OWNER/REPO/tags
+https://api.github.com/repos/OWNER/REPO/releases/tags/TAG
+
+Github:
+Some have static names making them easier to get the latest version directly.
+#k9s
+curl -LO https://github.com/derailed/k9s/releases/latest/download/k9s_Linux_amd64.tar.gz
+#minikube
+curl -LO https://github.com/kubernetes/minikube/releases/latest/download/minikube-linux-amd64
+#runc
+curl -LO https://github.com/opencontainers/runc/releases/latest/download/runc.amd64
+
+Some dont:
+#cri-tools
+curl -LO $( curl -L -s https://api.github.com/repos/kubernetes-sigs/cri-tools/releases/latest |grep browser_download_url.*crictl-.*linux-amd64.tar.gz\"  | cut -d '"' -f 4)
+#container networking plugins?
+curl -LO $( curl -L -s https://api.github.com/repos/containernetworking/plugins/releases/latest |grep browser_download_url.*linux-amd64.*tgz | cut -d '"' -f 4)
+#containerd
+curl -LO $( curl -L -s https://api.github.com/repos/containerd/containerd/releases/latest |grep -E "browser_download_url.*containerd-[1-9].*linux-amd64.tar.gz\" | cut -d '"' -f 4)
+#etcd
+curl -LO $( curl -L -s https://api.github.com/repos/etcd-io/etcd/releases/latest |grep browser_download_url.*linux-amd64.tar.gz | cut -d '"' -f 4)
+
+
+Others
+#helm
+curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+#kubectl
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+#k0s
+curl -sSLf https://get.k0s.sh | sudo sh

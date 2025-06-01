@@ -19,7 +19,7 @@ curl -LO $( curl -L -s https://api.github.com/repos/kubernetes-sigs/cri-tools/re
 #container networking plugins?
 curl -LO $( curl -L -s https://api.github.com/repos/containernetworking/plugins/releases/latest |grep browser_download_url.*linux-amd64.*tgz | cut -d '"' -f 4)
 #containerd
-curl -LO $( curl -L -s https://api.github.com/repos/containerd/containerd/releases/latest |grep -E "browser_download_url.*containerd-[1-9].*linux-amd64.tar.gz\" | cut -d '"' -f 4)
+curl -LO $( curl -L -s https://api.github.com/repos/containerd/containerd/releases/latest |grep -E "browser_download_url.*containerd-[1-9].*linux-amd64.tar.gz\"" | cut -d '"' -f 4)
 #etcd
 curl -LO $( curl -L -s https://api.github.com/repos/etcd-io/etcd/releases/latest |grep browser_download_url.*linux-amd64.tar.gz | cut -d '"' -f 4)
 

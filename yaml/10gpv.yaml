@@ -1,1 +1,12 @@
-
+# create a persistent volume with 10 gigs of space.
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: 10g-pv-volume
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "/mnt/data"

@@ -1,0 +1,11 @@
+# create a pv claim to leverage pv
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: 10gclaim
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi

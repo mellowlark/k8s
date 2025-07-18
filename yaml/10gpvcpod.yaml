@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: busybox-pod
+spec:
+  containers:
+    - name: busybox
+      image: busybox
+      command: ["/bin/sh", "-c", "sleep 3600"]
+      volumeMounts:
+        - mountPath: /mnt/data
+          name: 10g-pvc-volume
+  volumes:
+    - name: 10g-pvc-volume
+      persistentVolumeClaim:
+        claimName: 10gclaim

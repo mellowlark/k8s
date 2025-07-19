@@ -1,0 +1,49 @@
+#
+#
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-1g-rwm
+  labels:
+    size: small
+    wtype: rwm
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Delete
+  hostPath:
+    path: "/tmp/data/1g"
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-2g-rwm
+  labels:
+    size: med
+    wtype: rwm
+spec:
+  capacity:
+    storage: 2Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Delete
+  hostPath:
+    path: "/tmp/data/2g"
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-3g-rwm
+  labels:
+    size: large
+    wtype: rwm
+spec:
+  capacity:
+    storage: 3Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Delete
+  hostPath:
+    path: "/tmp/data/3g"

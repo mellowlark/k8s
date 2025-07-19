@@ -1,0 +1,58 @@
+#
+#
+apiVersion: v1
+kind: Pod
+metadata:
+  name: busybox-pod-1g
+spec:
+  containers:
+    - name: busybox-1g
+      image: busybox
+      command: ["/bin/sh", "-c", "tail -f /dev/null"]  # Keeps the pod running
+      volumeMounts:
+        - mountPath: /1g  # Path where the PVC will be mounted
+          name: 1g-pvc-volume
+        - mountPath: /2g
+          name: 2g-pvc-volume
+  volumes:
+    - name: 1g-pvc-volume
+      persistentVolumeClaim:
+        claimName: 1gclaim  # Replace with your PVC name
+    - name: 2g-pvc-volume
+      persistentVolumeClaim:
+        claimName: 2gclaim
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: busybox-pod-2g
+spec:
+  containers:
+    - name: busybox-2g
+      image: busybox
+      command: ["/bin/sh", "-c", "tail -f /dev/null"]  # Keeps the pod running
+      volumeMounts:
+        - mountPath: /data/2g  # Path where the PVC will be mounted
+          name: 2g-pvc-volume
+  volumes:
+    - name: 2g-pvc-volume
+      persistentVolumeClaim:
+        claimName: 2gclaim  # Replace with your PVC name
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: busybox-pod-3g
+spec:
+  containers:
+    - name: busybox-3g
+      image: busybox
+      command: ["/bin/sh", "-c", "tail -f /dev/null"]  # Keeps the pod running
+      volumeMounts:
+        - mountPath: /data/3g  # Path where the PVC will be mounted
+          name: 3g-pvc-volume
+  volumes:
+    - name: 3g-pvc-volume
+      persistentVolumeClaim:
+        claimName: 3gclaim  # Replace with your PVC name
+---

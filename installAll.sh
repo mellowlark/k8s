@@ -52,6 +52,10 @@ k0s() {
 	#install k0s quickly sets up a local Kubernetes cluster.
 	curl -sSLf https://get.k0s.sh | sudo sh
 }
+k3d() {
+	#install k3d quickly set up a multi cluster enviroment in docker.
+	curl -s https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
+}
 k0sp() {
 	#install k0s quickly sets up a local Kubernetes cluster.
  	#also calls main to install docker, kubectl, helm, k9s.

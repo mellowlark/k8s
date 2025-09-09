@@ -1,0 +1,51 @@
+k3d:
+Guides: https://k3d.io/v5.8.3/usage/configfile/
+k3d cluster -h or k3d help cluster
+k3d cluster (list, start, stop, create [-c config file], delete)
+(most commands will be kubectl commands)
+
+Delete cluster:
+k3d cluster list
+k3d cluster stop <cluster name>
+k3d cluster delete
+
+Creating cluster:
+k3d cluster create cluster360 -a 2 -s 1  --port '80:80@loadbalancer' -v /opt/nobody:/nobody@agent:0,1
+k3d cluster create cluster360 -a 2 -s 1  --port '80:80@loadbalancer' -v /opt/no:/nosquish@agent:0,1
+helm install ingress-nginx ingress-nginx/ingress-nginx --namespace ingress-nginx --create-namespace
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.18.2/cert-manager.yaml
+kubectl taint node k3d-cluster360-server-0 node-role.kubernetes.io/control-plane:NoSchedule
+
+apt-get install nfs-kernel-server
+sudo systemctl start nfs-kernel-server.service
+vi /etc/exports
+/kubernetes     172.22.224.25(rw,no_subtree_check,no_root_squash)
+sudo exportfs -a
+
+
+helm repo add nfs-subdir-external-provisioner https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner/
+helm install nfs-subdir-external-provisioner nfs-subdir-external-provisioner/nfs-subdir-external-provisioner \
+    --set nfs.server=172.22.224.25 \
+    --set nfs.path=/shared-data \
+    --set nfs.mountOptions={nfsvers=4}
+
+creates:
+deployment:
+kind: Deployment  nfs-client-provisioner pod
+
+rbac:
+kind: ServiceAccount
+kind: ClusterRole (service account permissions?)
+kind: ClusterRoleBinding
+kind: Role
+kind: RoleBinding
+
+class:
+kind: StorageClass
+
+  These are separate files:
+  test-claim:
+  kind: PersistentVolumeClaim
+
+  test-pod:
+  kind: Pod

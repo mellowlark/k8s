@@ -1,0 +1,37 @@
+# k3d-config.yaml
+apiVersion: k3d.io/v1alpha5
+kind: Simple
+metadata:
+  name: cluster360
+servers: 1
+agents: 2
+registries:
+  # This section tells k3d where your private registry is located.
+  config: |
+    mirrors:
+      "NJMYCLDTL411151.Nonprod.hclpnp.com":
+        endpoint:
+          - "https://NJMYCLDTL411151.Nonprod.hclpnp.com"
+volumes:
+  - volume: /mnt/data:/mnt/data
+    nodeFilters:
+      - server:0
+      - agent:*
+  - volume: /etc/localtime:/etc/localtime
+    nodeFilters:
+      - server:0
+      - agent:*
+  - volume: /usr/local/share/ca-certificates/domain.crt:/etc/ssl/certs/Nonprod.hclpnp.com.crt:ro
+    nodeFilters:
+      - server:0
+      - agent:*
+ports:
+  - port: 80:80 # same as `--port '8080:80@loadbalancer'`
+    nodeFilters:
+      - loadbalancer
+options:
+  k3s:
+    extraArgs: 
+    - arg: --disable=traefik
+      nodeFilters:
+        - server:0
